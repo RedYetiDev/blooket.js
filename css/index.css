@@ -1,10 +1,16 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px
+}
 .header {
   color: Navy;
   text-align: center;
-  font-family: B612 Mono;
-  font-size: 2.5vw;
-  left: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  font-size:3vw;
+}
+
+.menu {
+  font-size:5vw;
+  list-style-type: none;
+  text-align: center;
+  left: -100%;
 }

@@ -1,14 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <link href='https://fonts.googleapis.com/css?family=B612 Mono' rel='stylesheet'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/ScrollTrigger.min.js"></script>
+    <script src="js/index.js" charset="utf-8"></script>
     <link rel="stylesheet" href="css/index.css">
-    <meta charset="utf-8">
-    <title>blooket.js docs</title>
+    <title>Blooket.js Docs</title>
   </head>
   <body>
     <div class="header">
       <h1>The Blooket.js Documentation</h1>
+    </div>
+    <ul class="menu">
+      <li><a href="setup.html">Setup</a></li>
+      <br>
+      <li><a href="docs.html">Documentation</a></li>
+      <br>
+      <li><a href="extra.html">Extras</a></li>
+    </ul>
+    <div style="padding-top: 25vw"></div>
+    <div class="setup">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+       <script>hljs.initHighlightingOnLoad();</script>
+      <div class="header">
+        <h1>Setup blooket.js</h1>
+      </div>
+      <br>
+      <br>
+      <br>
+      <div>
+        <pre>
+        <code class="language-javascript">
+          // Node.js package not available yet
+          // Import blooket.js as blooket
+          const blooket = require("blooket.js")
+          // create a instance of blooket.js
+          const game = new Blooket()
+          // join the game with your pin and name
+          game.join(pin, name)
+        </code>
+        </pre>
+        <br class="setup-end">
+      </div>
+    </div>
+    <div style="padding-top: 100vw">
+
     </div>
   </body>
 </html>

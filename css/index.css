@@ -12,5 +12,5 @@ body {
   font-size:5vw;
   list-style-type: none;
   text-align: center;
-  left: -100%;
+  justify-content: center;
 }

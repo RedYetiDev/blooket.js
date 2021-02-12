@@ -26,6 +26,7 @@ class Blooket extends EventEmitter {
     this.gamestarted = 0
     // For Gold Game Mode
     this.prizes = null
+    this.steal = null
   }
   async join(pin, name, animal) {
     await socketcheck(pin).then((socket) => { this.socket = new ws(socket.url)})
@@ -84,8 +85,25 @@ class Blooket extends EventEmitter {
      }
    }
  }
- async getgold(prize) {
-   await goldHander(prize, this).then((e) => {console.log(e)})
+ async getgold(p) {
+   await goldHandler(p, this).then((e) => {
+     if (e[2] == "t") {
+       this.steal = e
+       console.log(this.steal[0])
+       this.emit("Steal",e[0])
+     } else if (e[2] == "swap") {}
+   })
+   // {"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${player.b}:${amount}","b":"${this.animal}","g":${remaining}}}}}
+ }
+ async steal(player) {
+   target = this.steal[0][player]
+   percent = this.steal[1]
+   console.log(target + '  ' + percent)
+   amount = (percent / 100) * target.g
+   remaining = target.g - amount
+   console.log(amount)
+   this.cash += amount
+   this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${player.b}:${amount}","b":"${this.animal}","g":${remaining}}}}}`)
  }
 }
 module.exports = Blooket;

@@ -95,12 +95,13 @@ class Blooket extends EventEmitter {
    })
    // {"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${player.b}:${amount}","b":"${this.animal}","g":${remaining}}}}}
  }
- async steal(player) {
-   target = this.steal[0][player]
-   percent = this.steal[1]
-   console.log(target + '  ' + percent)
-   amount = (percent / 100) * target.g
-   remaining = target.g - amount
+ rob(player) {
+   var target = this.steal[0][player]
+   var percent = this.steal[1]
+   console.log(target)
+   target.g = 100
+   var amount = (percent / 100) * target.g
+   var remaining = target.g - amount
    console.log(amount)
    this.cash += amount
    this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${player.b}:${amount}","b":"${this.animal}","g":${remaining}}}}}`)

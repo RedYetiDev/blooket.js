@@ -8,6 +8,7 @@ async function getdata(self) {
     console.log(data)
     try {
       if (data.d.b.p == self.pin) {
+        self.socket.on('message', function() {})
         return resolve([data.d.b.d.set,data.d.b.d.s.t])
       }
     } catch (e) {console.log(e)}

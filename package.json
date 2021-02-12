@@ -1,0 +1,31 @@
+{
+  "name": "blooket.js",
+  "version": "1.0.0",
+  "description": "This is a terminal client for the quiz service known as Blooket",
+  "main": "blooket.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RedYetiDev/blooket.js.git"
+  },
+  "keywords": [
+    "Blooket",
+    "blooket api",
+    "Blooket-api",
+    "Blooket.JS",
+    "blooket js"
+  ],
+  "author": "RedYetiDev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RedYetiDev/blooket.js/issues"
+  },
+  "homepage": "https://blooket.js.org",
+  "dependencies": {
+    "events": "^3.2.0",
+    "got": "^11.8.1",
+    "ws": "^7.4.3"
+  }
+}

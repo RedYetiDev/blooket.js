@@ -1,14 +1,41 @@
 function goldHandler(p, self) {
    return new Promise(async(resolve,reject) => {
-     prize = self.prizes[p - 1]
+     var prize = self.prizes[p - 1]
      console.log(self.prizes)
      console.log(prize)
-     prize = "t10"
      if (parseInt(prize)) {
        self.cash += self.prize
        self.socket.send(`{"t":"d","d":{"r":2,"a":"p","b":{"p":"/${self.pin}/c/${self.name}","d":{"b":"${self.animal}","g":${self.cash}}}}}`)
+       return resolve([self.cash,"d"])
      } else if (prize == "t10") {
-       await take(self).then((data) => {return resolve([data, 10, "t"])})
+       await getPlayers(self).then((players) => {
+         console.log(players)
+         return resolve([players,10,"t"])
+       })
+     } else if (prize == "t25") {
+       await getPlayers(self).then((players) => {
+         console.log(players)
+         return resolve([players,25,"t"])
+       })
+     } else if (prize == "l25") {
+       var cash = (25 / 100) * self.cash
+       return resolve([cash, "l"])
+     } else if (prize == "l50") {
+       var cash = (50 / 100) * self.cash
+       return resolve([cash, "l"])
+     } else if (prize == "swap") {
+       await getPlayers(self).then((players) => {
+         console.log(players)
+         return resolve([players,"s"])
+       })
+     } else if (prize == "double") {
+       self.cash *= 3
+       self.socket.send(`{"t":"d","d":{"r":2,"a":"p","b":{"p":"/${self.pin}/c/${self.name}","d":{"b":"${self.animal}","g":${self.cash}}}}}`)
+       return resolve([self.cash,"d"])
+     } else if (prize == "triple") {
+       self.cash *= 3
+       self.socket.send(`{"t":"d","d":{"r":2,"a":"p","b":{"p":"/${self.pin}/c/${self.name}","d":{"b":"${self.animal}","g":${self.cash}}}}}`)
+       return resolve([self.cash,"d"])
      }
  })
  }
@@ -29,15 +56,5 @@ function getPlayers(self) {
   console.log("Sending...")
   self.socket.send(`{"t":"d","d":{"r":1,"a":"q","b":{"p":"/${self.pin}/c","h":""}}}`)
 })
-}
-
-function take(self) {
-  return new Promise(async(resolve,reject) => {
-   await getPlayers(self).then((players) => {
-     console.log(players)
-     return resolve(players)
-     // {"t":"d","d":{"r":169,"a":"p","b":{"p":"/106305/c/Jimmy","d":{"at":"Mr Jimmy:Goat:87","b":"Cow","g":259}}}}
-   })
-  })
 }
 module.exports = goldHandler

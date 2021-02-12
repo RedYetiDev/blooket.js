@@ -7,7 +7,7 @@ function message(data, self) {
   } else if (data == `{"t":"d","d":{"b":{"p":"${self.pin}/stg","d":"${self.mode}"},"a":"d"}}` & self.gamestarted == 0) {
     console.log("The game is starting!")
     self.emit("GameStart")
-    
+    this.CurrentIndex = 0
   }
 }
 module.exports = message

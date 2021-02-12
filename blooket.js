@@ -54,6 +54,7 @@ class Blooket extends EventEmitter {
     this.socket.on('message', (data) => {message(data, this)})
     this.on("GameStart", function() {
         this.gamestarted = 1
+        this.CurrentIndex = 0
         this.startquestion()
     })
   }
@@ -65,8 +66,6 @@ class Blooket extends EventEmitter {
     })
   }
   async startquestion() {
-    console.log(this.CurrentIndex)
-    console.log(this.questions[0])
     console.log(`Question: ${this.questions[this.CurrentIndex]}`)
     this.emit("QuestionStart",this.questions[this.CurrentIndex])
   }
@@ -87,24 +86,55 @@ class Blooket extends EventEmitter {
  }
  async getgold(p) {
    await goldHandler(p, this).then((e) => {
-     if (e[2] == "t") {
+     console.log(e)
+     if (e[1] == "l") {
+      this.cash = e[0]
+      this.socket.send(`{"t":"d","d":{"r":2,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","g":${this.cash}}}}}`)
+      this.emit("NextQuestion")
+    } else if (e[1] == "d") {
+      this.cash = e[0]
+      this.emit("NextQuestion")
+    }else if (e[1] == "s") {
+      this.steal = e
+      this.emit("Swap",e[0])
+    } else if (e[2] == "t") {
        this.steal = e
        console.log(this.steal[0])
        this.emit("Steal",e[0])
-     } else if (e[2] == "swap") {}
+     }
    })
-   // {"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${player.b}:${amount}","b":"${this.animal}","g":${remaining}}}}}
+ }
+ swap(player) {
+   var targetanimal = this.steal[0][player].b
+   this.socket.on("message", function(data) {
+     data = JSON.parse(data)
+     console.log(data)
+     try {
+       if (data.d.b.p == `${this.pin}/c/${this.name}`) {
+         this.cash = data.d.b.d.g
+         console.log("You swapped with someone! Your new cash is " + this.cash)
+         this.socket.on("message", function() {})
+         this.emit("NextQuestion")
+       }
+     } catch (e) {
+       console.log(e)
+     }
+   })
+   this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${targetanimal}:swap","b":"${this.animal}","g":${this.cash}}}}}`)
  }
  rob(player) {
    var target = this.steal[0][player]
    var percent = this.steal[1]
    console.log(target)
-   target.g = 100
+   if (!target.g) {
+     target.g = 0
+   }
    var amount = (percent / 100) * target.g
    var remaining = target.g - amount
    console.log(amount)
    this.cash += amount
-   this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${player.b}:${amount}","b":"${this.animal}","g":${remaining}}}}}`)
+   this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${target.b}:${amount}","b":"${this.animal}","g":${remaining}}}}}`)
+   this.emit("NextQuestion")
  }
 }
 module.exports = Blooket;

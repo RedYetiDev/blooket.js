@@ -9,6 +9,7 @@
     <title>Blooket.js Docs</title>
   </head>
   <body>
+    <button type="button" onclick="dark()" name="button">TEst</button>
     <div class="header first">
       <h1>The Blooket.js Documentation</h1>
     </div>
@@ -33,8 +34,6 @@
           <del>npm install blooket.js</del>// Package Not Avaible Yet
         </code>
         </pre>
-      </div>
-      <div>
         <span class="header" style="text-align: center">Second step: prepare blooket.js</span>
         <pre>
         <code class="language-javascript">
@@ -55,23 +54,22 @@
       </div>
       <div class="header">
         <ul style="text-align: center; list-style-type: none;">
-          <li>Basic information</li>
+          <li><a href="#bi">Basic information</li>
           <br>
-          <li>Installation</li>
+          <li><a href="#installation">Installation</li>
           <br>
-          <li>Setup</li>
+          <li><a href="#doc-setup">Advanced Setup</a></li>
           <br>
-          <li>Features</li>
+          <li><a href="#features">Features</a></li>
           <br>
-          <li>Examples</li>
+          <li><a href="#examples">Examples</a></li>
           <br>
-          <li>Advanced Examples</li>
         </ul>
         </div>
         <div style="padding-top: 10vw">
         </div>
-        <div id="bi">
-          <div class="header">
+        <div class="bi" id="bi">
+          <div class="header bi-end">
             <h1>Basic Information</h1>
           </div>
           <span class="header">The <b>Blooket.JS</b> code is a class. so when you run</span><span>
@@ -82,11 +80,13 @@
                 <b>game = new Blooket()</b>
           </code>
         </pre>
-      </span><span class="header">
-        variables are created. The important ones are <b>game.pin</b>, <b>game.name</b>, <b>game.questions</b>, and if you are in Gold Quest, <b>game.prizes</b>. So if I were to log "game", it would return a list of all the diffent variables attached.
       </span>
+      <div style="text-align: center;"><span class="header">
+        variables are created. The important ones are <b>game.pin</b>, <b>game.name</b>, <b>game.questions</b>, and if you are in Gold Quest, <b>game.prizes</b>. So if I were to log "game", it would return a list of all the diffent variables attached.
+      </span></div>
         </div>
-        <div id="installation">
+        <div style="padding-top: 25vw"></div>
+        <div class="inst" id="installation">
           <div class="header">
             <h1>Installation</h1>
           </div>
@@ -100,8 +100,8 @@
         <span style="text-align: center;" class="header">You can also get the source code from <a href="https://github.com/RedYetiDev/blooket.js/releases/">here</a></span>
       </div>
       </div>
-      <div style="padding-top: 10vw">
-      <div id="Setup">
+      <div style="padding-top: 10vw"></div>
+      <div id="doc-setup">
         <div style="text-align: center" class="headers">
         <div class="header">
           <h1>Setup</h1>
@@ -112,7 +112,6 @@
         <br>
         <h2 class="header">For more <b>advanced setup</b>, you've come to the right place</h2>
         </div>
-      </div>
       <br>
       <br>
       <div class="header">
@@ -141,5 +140,62 @@
           </code>
         </pre>
     </div>
+    <div style="padding-top: 10vw"></div>
+    <div id="features" style="text-align: center;">
+      <div class="header">
+        <h1>Features</h1>
+      </div>
+      <span class="header"><b>Here is a list of activate features, more coming soon!</b></span>
+      <ul class="header" style="list-style-type: none">
+        <li>Basic features of the normal client</li>
+        <br>
+        <li>Score Modification</li>
+        <br>
+        <li>"Glitch/Powerup" activation (in factory mode)</li>
+        <br>
+        <li>Gold Swapping</li>
+        <br>
+        <li>Get Game Status</li>
+        <br>
+        <li>Kick all players (in lobby)</li>
+        <br>
+        <li><b>And more</b></li>
+      </ul>
+    </div>
+    <div style="padding-top: 20vw"></div>
+    <div id="examples">
+      <div class="header">
+        <h1>Examples</h1>
+        <h2>Here are some examples on ways you can you this API</h2>
+      </div>
+      <pre>
+        <code class="language-javascript">
+          // Example 1
+          const Blooket = require("blooket.js")
+          game = new Blooket()
+          game.on("GameStart", function() {
+            console.log("The quiz has begun!")
+          });
+          game.on("QuestionStart", function(question) {
+            console.log("The question has begun. Answering...")
+            // Get correct answer and answers
+            game.answer(question.answers.indexOf(question.correctAnswers[0]))
+          })
+          game.on("QuestionEnd", function(correct) {
+            if (correct) {
+              console.log("You got it right!")
+            }
+          })
+          // More examples coming soon
+        </code>
+      </pre>
+    </div>
+  </div>
+  <div id="extras">
+    <div class="header">
+      <h1>Extras</h1>
+      <h1>Coming soon</h1>
+    </div>
+  </div>
   </body>
 </html>

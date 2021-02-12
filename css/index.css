@@ -1,6 +1,6 @@
 body {
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 14px
+    font-size: 14px;
 }
 .header {
   color: Navy;
@@ -8,9 +8,24 @@ body {
   font-size:3vw;
 }
 
+.darkmode {
+  animation: darkmode;
+  -webkit-animation: darkmode;
+  animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+}
 .menu {
   font-size:5vw;
   list-style-type: none;
   text-align: center;
-  justify-content: center;
+}
+@keyframes darkmode {
+  0% {background-color: white; color: initial}
+  100% {background-color: black; color: white}
+}
+@-webkit-keyframes darkmode {
+  0% {background-color: white; color: initial}
+  100% {background-color: black; color: white}
 }

@@ -19,7 +19,6 @@ window.onload = function() {
     trigger: ".setup",
     start: "top bottom-=100",
     scrub: true,
-    markers: true
   },
   opacity: 1
   });
@@ -29,7 +28,6 @@ window.onload = function() {
     start: "top bottom-=100",
     end: "top top",
     scrub: true,
-    markers: true
   },
   opacity: 1
   });
@@ -39,7 +37,6 @@ window.onload = function() {
     start: "top bottom-=100",
     end: "top top",
     scrub: true,
-    markers: true
   },
   opacity: 1
   });
@@ -49,7 +46,6 @@ window.onload = function() {
     start: "top bottom-=100",
     end: "top top",
     scrub: true,
-    markers: true
   },
   opacity: 1
   });

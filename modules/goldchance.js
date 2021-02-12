@@ -3,7 +3,7 @@ function goldchance() {
     const probability = [ // Help form https://stackoverflow.com/questions/66141403/javascript-chance-with-decimals/66141958 on probability
       { "gold": "l50"    , "chance":  1   }, //  1.0 * 2 =  2 | [   0,   1 ]
       { "gold": "swap"   , "chance":  2   }, //  2.0 * 2 =  4 | [   2,   5 ]
-      { "gold": "0"      , "chance":  2   }, //  2.0 * 2 =  4 | [   6,   9 ]
+      { "gold": 0        , "chance":  2   }, //  2.0 * 2 =  4 | [   6,   9 ]
       { "gold": "l25"    , "chance":  3   }, //  3.0 * 2 =  6 | [  10,  15 ]
       { "gold": "t10"    , "chance":  4   }, //  4.0 * 2 =  8 | [  16,  23 ]
       { "gold": "t25"    , "chance":  4   }, //  4.0 * 2 =  8 | [  24,  31 ]

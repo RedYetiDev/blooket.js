@@ -4,8 +4,8 @@ function goldHandler(p, self) {
      console.log(self.prizes)
      console.log(prize)
      if (parseInt(prize)) {
-       self.cash += self.prize
-       self.socket.send(`{"t":"d","d":{"r":2,"a":"p","b":{"p":"/${self.pin}/c/${self.name}","d":{"b":"${self.animal}","g":${self.cash}}}}}`)
+       console.log("Prize is integer!")
+       self.cash += prize
        return resolve([self.cash,"d"])
      } else if (prize == "t10") {
        await getPlayers(self).then((players) => {

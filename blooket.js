@@ -93,6 +93,7 @@ class Blooket extends EventEmitter {
       this.emit("NextQuestion")
     } else if (e[1] == "d") {
       this.cash = e[0]
+      this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","g":${this.cash}}}}}`)
       this.emit("NextQuestion")
     }else if (e[1] == "s") {
       this.steal = e

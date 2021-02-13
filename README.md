@@ -70,6 +70,6 @@ Better documentation coming soon to [blooket.js.org](https://blooket.js.org).
   })
   game.on("Swap", function(data) {
     console.log("swapping with the first player...")
-    game.swap(Object.keys(data)[0]) // This function says to swap with the first player. You can use the players name, or Object.keys(data)[0], replacing zero with the player number.
+    game.swap(Object.keys(data)[0]) // This function says to swap with the first player. You can use the players name, or Object.keys(data)[0], replacing zero with the player number. The swap function does not do anything to you, but it does swap the other players score.
   })
   ```

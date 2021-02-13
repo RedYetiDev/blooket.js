@@ -11,7 +11,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 class Blooket extends EventEmitter {
     /**
    * @constructor - The contructor to the Blooket.JS class
-   * @param {object} options - The Blooket.JS options. Currently, you can use "repeat, true/false, default true".
+   * @param {object} options - The Blooket.JS options. Currently, you can use "repeat, true/false, default true". Must be a JSON object.
    */
   constructor(options) {
     super()

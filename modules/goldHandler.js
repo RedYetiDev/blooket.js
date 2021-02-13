@@ -1,5 +1,5 @@
 /**
-* @param {number[1-3]} p - The prize number
+* @param {number} p - The prize number
 * @param {object} self - the client
 * @returns {array} - Returns an array containing the players (optional), the cash or percent of cash for an action, and the action to perform
 */

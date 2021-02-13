@@ -1,5 +1,5 @@
 /**
-  * @param {number[1-4]} answer - The answer to send
+  * @param {number} answer - The answer to send
   * @param {object} self - The client
 */
 function answerHandler(answer, self) {

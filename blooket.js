@@ -97,7 +97,7 @@ class Blooket extends EventEmitter {
     this.emit("QuestionStart",this.questions[this.CurrentIndex])
   }
   /**
-  * @param {number[1-4]}
+  * @param {number}
   */
  async answer(a) {
    console.log("Answering Question: " + this.CurrentIndex)
@@ -116,7 +116,7 @@ class Blooket extends EventEmitter {
    }
  }
  /**
- * @param {number[1-3]} - The prize to open
+ * @param {number} - The prize to open
  */
  async getgold(p) {
    await goldHandler(p, this).then((e) => {

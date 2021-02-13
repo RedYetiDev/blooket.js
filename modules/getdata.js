@@ -1,3 +1,7 @@
+/**
+* @param {object} self - The client
+* @returns {Promise} - Returns a promise containing the set, and the game data
+*/
 async function getdata(self) {
   return new Promise((resolve,reject) => {
   self.socket.on('open', function() {

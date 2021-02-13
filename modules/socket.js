@@ -1,3 +1,8 @@
+/**
+* @params {number} pin - The game PIN
+* @requires ws
+* @returns {promise} Returns a promise containing the websocket use for the game.
+*/
 const WebSocket = require('ws');
 function socketcheck(pin) {
   return new Promise((resolve, reject) => {

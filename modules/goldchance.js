@@ -1,3 +1,6 @@
+/**
+* @returns {array} - Returns an array containing 3 random prizes.
+*/
 function goldchance() {
   return new Promise((resolve,reject) => {
     const probability = [ // Help form https://stackoverflow.com/questions/66141403/javascript-chance-with-decimals/66141958 on probability

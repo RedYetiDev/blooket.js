@@ -39,6 +39,11 @@ class Blooket extends EventEmitter {
     this.steal = null
     // Options configure
   }
+  /**
+  * @param {number} pin - The game pin
+  * @param {string} name - The client's name
+  * @param {string} animal - The client's animal picture
+  */
   async join(pin, name, animal) {
     await socketcheck(pin).then((socket) => { this.socket = new ws(socket.url)})
     this.pin = pin
@@ -68,6 +73,9 @@ class Blooket extends EventEmitter {
         this.startquestion()
     })
   }
+  /**
+  * Sends the player information to the websocket
+  */
   connect() {
     return new Promise((resolve,reject) => {
         this.socket.removeAllListeners()
@@ -75,6 +83,9 @@ class Blooket extends EventEmitter {
         return resolve()
     })
   }
+  /**
+  * Starts the question, changes the question index for the next question
+  */
   async startquestion() {
     this.socket.removeAllListeners()
     if (this.CurrentIndex == this.TotalIndex & this.options.repeat == true) {
@@ -85,6 +96,9 @@ class Blooket extends EventEmitter {
     await delay(1000);
     this.emit("QuestionStart",this.questions[this.CurrentIndex])
   }
+  /**
+  * @param {number[1-4]}
+  */
  async answer(a) {
    console.log("Answering Question: " + this.CurrentIndex)
    await answerHandler(a-1, this).then((correct) => {
@@ -101,6 +115,9 @@ class Blooket extends EventEmitter {
      }
    }
  }
+ /**
+ * @param {number[1-3]} - The prize to open
+ */
  async getgold(p) {
    await goldHandler(p, this).then((e) => {
      console.log(e)
@@ -121,6 +138,9 @@ class Blooket extends EventEmitter {
      }
    })
  }
+ /**
+ * @param {string} - The player to swap from
+ */
  swap(player) {
    var targetanimal = this.steal[0][player].b
    this.socket.on("message", function(data) {
@@ -137,6 +157,9 @@ class Blooket extends EventEmitter {
    this.cash = Math.floor(this.cash)
    this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${player}","d":{"at":"${this.name}:${this.animal}:swap","b":"${targetanimal}","g":${this.cash}}}}}`)
  }
+ /**
+ * @param {string} - The player to steal from
+ */
  rob(player) {
    var target = this.steal[0][player]
    var percent = this.steal[1]

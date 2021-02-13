@@ -1,3 +1,8 @@
+/**
+* @param {number[1-3]} p - The prize number
+* @param {object} self - the client
+* @returns {array} - Returns an array containing the players (optional), the cash or percent of cash for an action, and the action to perform
+*/
 function goldHandler(p, self) {
    return new Promise(async(resolve,reject) => {
      var prize = self.prizes[p - 1]
@@ -36,6 +41,10 @@ function goldHandler(p, self) {
      }
  })
  }
+ /**
+ * @param {object} self - the client
+ * @returns {promise} - Returns a promise with a list of players with there animal and score.
+ */
 function getPlayers(self) {
   return new Promise((resolve, reject) => {
   self.socket.on("message", function(data) {

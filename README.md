@@ -21,9 +21,7 @@ In version 0.1, the JS is only for pre release. The only game mode supported is 
 Better documentation coming soon to [blooket.js.org](https://blooket.js.org).
 
 #### Installing
-  Run ~~`npm install blooket.js` to install Blooket.JS~~
-
-  Blooket.JS package not available yet.
+  Run `npm install blooket.js` to install Blooket.JS
 
 #### Using
   To import the package, use

@@ -7,7 +7,7 @@ async function getdata(self) {
     data = JSON.parse(data)
     try {
       if (data.d.b.p == self.pin) {
-        self.socket.removeAllListeners()
+        this.removeAllListeners()
         return resolve([data.d.b.d.set,data.d.b.d.s.t])
       }
     } catch (e) {console.log(e)}

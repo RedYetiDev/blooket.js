@@ -124,17 +124,14 @@ class Blooket extends EventEmitter {
  swap(player) {
    var targetanimal = this.steal[0][player].b
    this.socket.on("message", function(data) {
+     console.log(this)
      data = JSON.parse(data)
      console.log(data.d)
-     try {
-       if (data.d.b.d.at) {
-         console.log("You swapped!")
-         this.socket.removeAllListeners()
-         this.cash = data.d.b.d.g || 0
-         this.emit("NextQuestion")
-       }
-       } catch (e) {
-       console.log(e)
+     if (data.d.b.d.at) {
+       console.log("You swapped!")
+       console.log(data.d.b.d.g)
+       game.cash = data.d.b.d.g || 0
+       game.emit("NextQuestion")
      }
    })
    this.cash = Math.floor(this.cash)

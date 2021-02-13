@@ -1,7 +1,6 @@
 function goldHandler(p, self) {
    return new Promise(async(resolve,reject) => {
      var prize = self.prizes[p - 1]
-     var prize = "swap"
      if (parseInt(prize) || prize == 0) {
        self.cash += prize
        return resolve([self.cash,"d"])
@@ -45,7 +44,7 @@ function getPlayers(self) {
     console.log(data)
     try {
       if (data.d.b.p == `${self.pin}/c`) {
-        self.socket.removeAllListeners()
+        this.removeAllListeners()
         var players = data.d.b.d
         delete players[self.name]
         console.log(players)

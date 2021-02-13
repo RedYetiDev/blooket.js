@@ -10,7 +10,7 @@ const goldHandler = require("./modules/goldHandler")
 const delay = ms => new Promise(res => setTimeout(res, ms));
 class Blooket extends EventEmitter {
     /**
-   * @constructor - The constructor to the Blooket.JS class
+   * @constructor - blooket
    * @param {object} options - The Blooket.JS options. Currently, you can use "repeat, true/false, default true". Must be a JSON object.
    */
   constructor(options) {

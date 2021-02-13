@@ -1,10 +1,8 @@
 function goldHandler(p, self) {
    return new Promise(async(resolve,reject) => {
      var prize = self.prizes[p - 1]
-     console.log(self.prizes)
-     console.log(prize)
-     if (parseInt(prize)) {
-       console.log("Prize is integer!")
+     var prize = "swap"
+     if (parseInt(prize) || prize == 0) {
        self.cash += prize
        return resolve([self.cash,"d"])
      } else if (prize == "t10") {

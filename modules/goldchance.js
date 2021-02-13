@@ -38,8 +38,6 @@ function goldchance() {
     result = []
     for (let i = 0; i < 3; i++) {
       const rollIndex = roll();
-      console.log(rollIndex, JSON.stringify(probability[rollIndex]));
-      console.log()
       result.push(probability[rollIndex].gold)
     }
     return resolve(result)

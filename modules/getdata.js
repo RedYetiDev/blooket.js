@@ -5,7 +5,6 @@ async function getdata(self) {
   })
   self.socket.on('message', function(data) {
     data = JSON.parse(data)
-    console.log(data)
     try {
       if (data.d.b.p == self.pin) {
         self.socket.on('message', function() {})

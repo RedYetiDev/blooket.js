@@ -19,7 +19,6 @@ class Blooket extends EventEmitter {
     this.options = {}
     options = options || {}
     this.options.repeat = options.repeat || true
-    console.log(this.options)
     // All Game Modes
     this.questions = null
     this.mode = null
@@ -57,7 +56,6 @@ class Blooket extends EventEmitter {
       }
     })
     await this.connect()
-    console.log(`Connected as ${this.name} with the animal ${this.animal}. The game mode is ${this.mode}, that means that the currency is ${this.currency}`)
     this.emit("joined", this)
     await getquestions(this.gameid).then((questions) => {
       this.questions = questions.questions
@@ -72,7 +70,7 @@ class Blooket extends EventEmitter {
   }
   connect() {
     return new Promise((resolve,reject) => {
-        this.socket.on('message', function(data) {console.log(data)})
+        this.socket.on('message', function(data) {})
         this.socket.send(`{"t":"d","d":{"r":2,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}"}}}}`)
         return resolve()
     })
@@ -81,11 +79,9 @@ class Blooket extends EventEmitter {
     if (this.CurrentIndex == this.TotalIndex & this.options.repeat == true) {
       this.CurrentIndex = 0
     } else if (this.options.repat == false) {
-      console.log("Out of questions, ending")
-      console.error("OOQ => Out Of Questions");
+      exit("OOQ => Out Of Questions");
     }
     await delay(1000);
-    console.log(`Question: ${this.questions[this.CurrentIndex]}`)
     this.emit("QuestionStart",this.questions[this.CurrentIndex])
   }
  async answer(a) {

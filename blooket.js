@@ -9,8 +9,18 @@ const goldchance = require("./modules/goldchance")
 const goldHandler = require("./modules/goldHandler")
 const delay = ms => new Promise(res => setTimeout(res, ms));
 class Blooket extends EventEmitter {
-  constructor(options={}) {
+    /**
+   * @constructor - The contructor to the Blooket.JS class
+   * @param {object} options - The Blooket.JS options. Currently, you can use "repeat, true/false, default true".
+   */
+  constructor(options) {
     super()
+    // Game Options
+    this.options = {}
+    options = options || {}
+    this.options.repeat = options.repeat || true
+    console.log(this.options)
+    // All Game Modes
     this.questions = null
     this.mode = null
     this.pin = null
@@ -28,6 +38,7 @@ class Blooket extends EventEmitter {
     // For Gold Game Mode
     this.prizes = null
     this.steal = null
+    // Options configure
   }
   async join(pin, name, animal) {
     await socketcheck(pin).then((socket) => { this.socket = new ws(socket.url)})
@@ -67,6 +78,12 @@ class Blooket extends EventEmitter {
     })
   }
   async startquestion() {
+    if (this.CurrentIndex == this.TotalIndex & this.options.repeat == true) {
+      this.CurrentIndex = 0
+    } else if (this.options.repat == false) {
+      console.log("Out of questions, ending")
+      console.error("OOQ => Out Of Questions");
+    }
     await delay(1000);
     console.log(`Question: ${this.questions[this.CurrentIndex]}`)
     this.emit("QuestionStart",this.questions[this.CurrentIndex])
@@ -91,7 +108,6 @@ class Blooket extends EventEmitter {
    await goldHandler(p, this).then((e) => {
      console.log(e)
      if (e[1] == "l") {
-      this.cash = e[0]
       this.socket.send(`{"t":"d","d":{"r":2,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","g":${this.cash}}}}}`)
       this.emit("NextQuestion")
     } else if (e[1] == "d") {
@@ -112,16 +128,19 @@ class Blooket extends EventEmitter {
    var targetanimal = this.steal[0][player].b
    this.socket.on("message", function(data) {
      data = JSON.parse(data)
-     console.log(data)
+     console.log(data.d)
      try {
-         this.cash = data.d.b.d.g
+       if (data.d.b.d.at) {
+         this.cash = data.d.b.d.g || 0
          console.log("You swapped with someone! Your new cash is " + this.cash)
          this.emit("NextQuestion")
+       }
        } catch (e) {
        console.log(e)
      }
    })
-   this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${targetanimal}:swap","b":"${this.animal}","g":${this.cash}}}}}`)
+   this.cash = Math.floor(this.cash)
+   this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${this.animal}:swap","b":"${targetanimal}","g":${this.cash}}}}}`)
  }
  rob(player) {
    var target = this.steal[0][player]

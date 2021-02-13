@@ -4,7 +4,6 @@
   "description": "This is a terminal client for the quiz service known as Blooket",
   "main": "blooket.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -26,7 +25,6 @@
   "dependencies": {
     "events": "^3.2.0",
     "got": "^11.8.1",
-    "jsdoc": "^3.6.6",
     "ws": "^7.4.3"
   }
 }

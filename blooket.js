@@ -7,6 +7,7 @@ const getquestions = require('./modules/questions')
 const answerHandler = require("./modules/answerHandler")
 const goldchance = require("./modules/goldchance")
 const goldHandler = require("./modules/goldHandler")
+const delay = ms => new Promise(res => setTimeout(res, ms));
 class Blooket extends EventEmitter {
   constructor(options={}) {
     super()
@@ -66,10 +67,12 @@ class Blooket extends EventEmitter {
     })
   }
   async startquestion() {
+    await delay(1000);
     console.log(`Question: ${this.questions[this.CurrentIndex]}`)
     this.emit("QuestionStart",this.questions[this.CurrentIndex])
   }
  async answer(a) {
+   console.log("Answering Question: " + this.CurrentIndex)
    await answerHandler(a-1, this).then((correct) => {
      this.correct = correct
      this.CurrentIndex += 1
@@ -111,13 +114,10 @@ class Blooket extends EventEmitter {
      data = JSON.parse(data)
      console.log(data)
      try {
-       if (data.d.b.p == `${this.pin}/c/${this.name}`) {
          this.cash = data.d.b.d.g
          console.log("You swapped with someone! Your new cash is " + this.cash)
-         this.socket.on("message", function() {})
          this.emit("NextQuestion")
-       }
-     } catch (e) {
+       } catch (e) {
        console.log(e)
      }
    })

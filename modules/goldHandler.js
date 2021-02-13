@@ -3,6 +3,7 @@ function goldHandler(p, self) {
      var prize = self.prizes[p - 1]
      console.log(self.prizes)
      console.log(prize)
+     var prize = "l25"
      if (parseInt(prize)) {
        console.log("Prize is integer!")
        self.cash += prize

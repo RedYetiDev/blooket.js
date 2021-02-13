@@ -10,7 +10,7 @@ function socketcheck(pin) {
     data = JSON.parse(data)
     try {
       if (data.d.b.p == pin) {
-        return resolve(socket)
+        socket.removeAllListeners(); return resolve(socket)
         socket.close()
       }t
     } catch (e) {}
@@ -24,6 +24,7 @@ function socketcheck(pin) {
       data = JSON.parse(data)
       try {
         if (data.d.b.p == pin) {
+          socket.removeAllListeners();
           return resolve(socket)
           socket.close()
         }
@@ -38,6 +39,7 @@ function socketcheck(pin) {
           data = JSON.parse(data)
           try {
             if (data.d.b.p == pin) {
+              socket.removeAllListeners();
               return resolve(socket)
               socket.close()
             }
@@ -52,6 +54,7 @@ function socketcheck(pin) {
             data = JSON.parse(data)
             try {
               if (data.d.b.p == pin) {
+                socket.removeAllListeners();
                 return resolve(socket)
                 socket.close()
               }
@@ -66,6 +69,7 @@ function socketcheck(pin) {
               data = JSON.parse(data)
               try {
                 if (data.d.b.p == pin) {
+                  socket.removeAllListeners();
                   return resolve(socket)
                   socket.close()
                 }

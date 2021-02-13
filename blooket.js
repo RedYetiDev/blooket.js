@@ -70,12 +70,13 @@ class Blooket extends EventEmitter {
   }
   connect() {
     return new Promise((resolve,reject) => {
-        this.socket.on('message', function(data) {})
+        this.socket.removeAllListeners()
         this.socket.send(`{"t":"d","d":{"r":2,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}"}}}}`)
         return resolve()
     })
   }
   async startquestion() {
+    this.socket.removeAllListeners()
     if (this.CurrentIndex == this.TotalIndex & this.options.repeat == true) {
       this.CurrentIndex = 0
     } else if (this.options.repat == false) {
@@ -127,8 +128,9 @@ class Blooket extends EventEmitter {
      console.log(data.d)
      try {
        if (data.d.b.d.at) {
+         console.log("You swapped!")
+         this.socket.removeAllListeners()
          this.cash = data.d.b.d.g || 0
-         console.log("You swapped with someone! Your new cash is " + this.cash)
          this.emit("NextQuestion")
        }
        } catch (e) {
@@ -136,7 +138,7 @@ class Blooket extends EventEmitter {
      }
    })
    this.cash = Math.floor(this.cash)
-   this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${this.animal}:swap","b":"${targetanimal}","g":${this.cash}}}}}`)
+   this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${player}","d":{"at":"${this.name}:${this.animal}:swap","b":"${targetanimal}","g":${this.cash}}}}}`)
  }
  rob(player) {
    var target = this.steal[0][player]

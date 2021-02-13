@@ -45,6 +45,7 @@ function getPlayers(self) {
     console.log(data)
     try {
       if (data.d.b.p == `${self.pin}/c`) {
+        self.socket.removeAllListeners()
         var players = data.d.b.d
         delete players[self.name]
         console.log(players)

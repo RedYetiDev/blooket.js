@@ -1,11 +1,230 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
-    <title>Updating docs</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.3.2.min.js" integrity="sha256-Ap4KLoCf1rXb52q+i3p0k2vjBsmownyBTE1EqlRiMwA=" crossorigin="anonymous"></script>
+    <script src="js/index.js" charset="utf-8"></script>
+    <title>The Blooket.JS Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
   </head>
+  <link rel="stylesheet" href="css/index.css">
   <body>
-    <h1>The docs are updating.</h1>
-    <h1>Please visit <a href="docs">this page</a> for the current documentation.</h1>
+    <div class="sidebar">
+      <a href="#intro" data-menutype="main" data-menuname="intro" class="intro" onclick="$('html, body').animate({ scrollTop: 0 }, 600);">Introduction</a>
+      <a href="#what"  data-menutype="sub" class="intro-sub" onclick="$('html, body').animate({ scrollTop: $('.what').offset().top }, 600);">What is Blooket.JS</a>
+      <a href="#how"  data-menutype="sub" class="intro-sub" onclick="$('html, body').animate({ scrollTop: $('.how').offset().top }, 600);">How was Blooket.JS created</a>
+      <a href="#setup" data-menutype="main" data-menuname="setup" onclick="$('html, body').animate({ scrollTop: $('#setup').offset().top }, 600);">Setup</a>
+      <a href="#install" style="display: none"></a>
+      <a href="#docs" data-menutype="main" data-menuname="docs" onclick="$('html, body').animate({ scrollTop: $('#docs').offset().top }, 600);">Documentation</a>
+      <a href="#start" style="display: none"></a>
+      <a href="#GameStart" style="display: none"></a>
+      <a href="#QuestionStart" style="display: none"></a>
+      <a href="#Correct" style="display: none"></a>
+      <a href="#GetGold" style="display: none"></a>
+      <a href="#SwapSteal" style="display: none"></a>
+      <a href="#NextQuestion" style="display: none"></a>
+      <a href="#more_events" style="display: none"></a>
+    </div>
+    <div class="content">
+      <section id="intro">
+        <h1>The Blooket.JS Documentation</h1>
+        <h3> <a href="https://github.com/redyetidev/blooket.js">Project Repo</a></h3>
+        <h3 style="color: grey">Blooket.JS created by RedYetiDev</h3>
+        <h5><a href="https://redyetidev.github.io">GitHub Website</a> - <a href="https://github.com/RedYetiDev">GitHub profile</a></h5>
+      </section>
+      <hr class="line">
+      <section id="what">
+        <h2 class="what">What is Blooket.JS</h2>
+        <p>Blooket.JS is a nodeJS package built for communicating with the <a href="https://blooket.com"><b>Blooket</b></a> quiz service. This package is <b>Still in beta</b>, so there will be bugs in the current release.</p>
+      </section>
+      <hr class="line">
+      <section id="how">
+        <h2 class="how">How was Blooket.JS created?</h2>
+        <p>Blooket.JS was created using Node.JS, and <a href="https://atom.io"><b>Atom</b></a> Text editor.</p>
+      </section>
+      <hr class="line" style="height: 2px; background: black">
+      <section id="setup">
+        <h1>Setup</h1>
+        <h3>And Installation</h3>
+        <h5> <a href="https://npmjs.com/package/blooket.js"><img src="https://nodei.co/npm/blooket.js.png"></img></a> </h5>
+      </section>
+      <section id="install">
+        <h2>Installation</h2>
+        <p>To install <b>Blooket.JS</b>, use the following command. You <b>must</b> have <b>NPM</b> and <b>Node</b> installed.</p>
+        <pre style="text-align: left"><code style="text-align: left" class="language-bash">
+npm i blooket.js
+        </code></pre>
+      </section>
+      <section id="setup">
+        <p>In every script using <b>Blooket.JS</b>, you must have the following commands located somewhere in your script</p>
+        <h2>Setup</h2>
+        <pre style="text-align: left">
+          <code style="text-align: left" class="language-javascript">
+const Blooket = require("blooket.js")
+// Game can be changed out for a variable of your choice
+const game = new Blooket()
+          </code>
+        </pre>
+      </section>
+      <section id="docs">
+        <h1>Documentation</h1>
+        <h3>This is "how to" guide to using blooket.js</h3>
+      </section>
+      <section id="start">
+        <h2>Basic Guide</h2>
+        <p>After you have installed blooket.js (<code style="background-color: #F0F0F0; color: black">npm i blooket.js</code>), you can use events to answer and control blooket.js</p>
+        <p>Events are as such:</p>
+        <ul style="list-style-type: none">
+          <li>GameStart</li>
+          <br>
+          <li>QuestionStart</li>
+          <br>
+          <li>Correct</li>
+          <br>
+          <li>GetGold (Gold Quest Only)</li>
+          <br>
+          <li>Swap (Gold Quest Only)</li>
+          <br>
+          <li>Steal (Gold Quest Only)</li>
+          <br>
+          <li>NextQuestion</li>
+        </ul>
+      </section>
+      <section id="GameStart">
+          <h2>GameStart</h2>
+          <p>The GameStart event is emitted when the game begins. It should be handled similarly to the example below</p>
+          <pre style="text-align: left">
+            <code style="text-align: left" class="language-javascript">
+game.on("GameStart", function() {
+  game.startquestion()
+})
+            </code>
+          </pre>
+          <p>The function can have an optional parameter containing the game data.</p>
+          <p>For more parameters, see <a href="#params">params</a></p>
+          <pre style="text-align: left">
+            <code style="text-align: left" class="language-javascript">
+game.on("GameStart", function(data) {
+  console.log("The game has begun. The quiz type is " + data.mode)
+})
+            </code>
+          </pre>
+      </section>
+      <section id="QuestionStart">
+          <h2>QuestionStart</h2>
+          <p>The QuestionStart event is emitted when the question begins. It should be handled similarly to the example below</p>
+          <pre style="text-align: left">
+            <code style="text-align: left" class="language-javascript">
+game.on("QuestionStart", function() {
+  game.answer(1) // Answer number (1,2,3 or 4)
+})
+            </code>
+          </pre>
+          <p>The function can have an optional parameter containing the question data.</p>
+          <p>For more parameters, see <a href="#params">params</a></p>
+          <pre style="text-align: left">
+            <code style="text-align: left" class="language-javascript">
+game.on("QuestionStart", function(question) {
+  console.log("The question has started.")
+  console.log("The choices are " + question.answers)
+  game.answer(1)
+})
+            </code>
+          </pre>
+      </section>
+      <section id="Correct">
+          <h2>correct</h2>
+          <p>The correct event is emitted when the client answers a question correctly. It should be handled similarly to the example below</p>
+          <pre style="text-align: left">
+            <code style="text-align: left" class="language-javascript">
+game.on("correct", function() {
+  console.log("You got it correct!")
+})
+            </code>
+          </pre>
+      </section>
+      <section id="GetGold">
+          <h2>GetGold</h2>
+          <p>The GetGold event is emitted when it is time for you to collect gold. It should be handled similarly to the example below</p>
+          <pre style="text-align: left">
+            <code style="text-align: left" class="language-javascript">
+game.on("GetGold", function() {
+  game.getgold(1) // Can be 1, 2 or 3
+})
+            </code>
+          </pre>
+      </section>
+      <section id="SwapSteal">
+          <h2>Swap and Steal</h2>
+          <p>The Swap event is emitted when the prize opened from getgold is swap. The Steal event is emitted when the prize opened from getgold is steal. Both of these events should be handled similarly to the example below</p>
+          <pre style="text-align: left">
+            <code style="text-align: left" class="language-javascript">
+game.on("Swap", function() {
+  game.swap(1) // Can be a player number.
+})
+            </code>
+            <code style="text-align: left" class="language-javascript">
+game.on("Steal", function() {
+  game.rob(1) // Can be a player number.
+})
+            </code>
+          </pre>
+      </section>
+      <section id="NextQuestion">
+          <h2>NextQuestion</h2>
+          <p>The NextQuestion event is emitted when the question has ended. It should be handled similarly to the example below</p>
+          <pre style="text-align: left">
+            <code style="text-align: left" class="language-javascript">
+game.on("NextQuestion", function() {
+  game.startquestion()
+})
+            </code>
+          </pre>
+      </section>
+      <section id="more_events">
+        <p>The events listed on the description of this package are</p>
+        <pre style="text-align: left">
+          <code style="text-align: left" class="language-javascript">
+game.on("SocketConnect", function(s) {
+  console.log("Connected to socket " + s.url)
+})
+game.on("DataReceived", function(s) {
+  console.log("Connected to a " + s[1] + " game. The ID is " + s[0])
+})
+game.on("joined", function(player) {
+  console.log(`joined as ${player.name}`)
+})
+game.on("GameStart", function() {
+  console.log("The game is starting!")
+})
+game.on("QuestionStart", function(q) {
+  game.answer(3) // The game.answer function answers the question, in this case, it will answer the third possible response.
+})
+game.on("Correct", function() {
+  console.log("Yay! You answered correctly")
+})
+game.on("NextQuestion", function() {
+  console.log("Question Completed!")
+  game.startquestion() // this functions begins the next question
+})
+// The following are specific to Gold Quest
+game.on("GetGold", function() {
+  console.log("Collect your gold")
+  game.getgold(1) // This function says to collect the gold (or prize). Out of the 3 randomly chosen prizes (see the "goldchance.js" file), this will pick the 1st one.
+})
+game.on("Steal", function(data) {
+  console.log("Stealing from the first player...")
+  game.rob(Object.keys(data)[0]) // This function says to steal from the first player. You can use the players name, or Object.keys(data)[0], replacing zero with the player number.
+})
+game.on("Swap", function(data) {
+  console.log("swapping with the first player...")
+  game.swap(Object.keys(data)[0]) // This function says to swap with the first player. You can use the players name, or Object.keys(data)[0], replacing zero with the player number. The swap function does not do anything to you, but it does swap the other players score.
+})
+          </code>
+        </pre>
+      </section>
+    </div>
   </body>
 </html>

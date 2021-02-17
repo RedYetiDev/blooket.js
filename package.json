@@ -4,7 +4,7 @@
   "description": "This is a terminal client for the quiz service known as Blooket",
   "main": "blooket.js",
   "scripts": {
-    "test": exit 0
+    "test": "exit 0"
   },
   "repository": {
     "type": "git",

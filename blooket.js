@@ -19,6 +19,8 @@ class Blooket extends EventEmitter {
     this.options = {}
     options = options || {}
     this.options.repeat = options.repeat || true
+    // Cafe Mode Only Option
+    this.options.cafebonus = options.cafebonus || 50
     // All Game Modes
     this.questions = null
     this.mode = null
@@ -112,6 +114,10 @@ class Blooket extends EventEmitter {
          this.prizes = prizes
          this.emit("GetGold")
        })
+     } else if (this.mode == "cafe") {
+       this.cash += this.options.cafebonus
+       this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","ca":${this.cash}}}}}`)
+       game.emit("NextQuestion")
      }
    }
  }

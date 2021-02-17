@@ -24,6 +24,8 @@ class Blooket extends EventEmitter {
     // Factory Mode Only Options
     this.options.blooktime = options.blooktime || 1000
     this.options.blookcash = options.blookcash || 100
+    // Battle Royale Only Options
+    this.options.answertime = options.answertime || 1
     // All Game Modes
     this.questions = null
     this.mode = null
@@ -44,6 +46,8 @@ class Blooket extends EventEmitter {
     this.steal = null
     // For fatory mode only
     this.blooks = 0
+    // Battle Royale only
+    this.shuffle = null
   }
   /**
   * @param {number} pin - The game pin
@@ -76,12 +80,23 @@ class Blooket extends EventEmitter {
       this.questions = questions.questions
       this.TotalIndex = questions.questions.length - 1
     })
+    if (this.mode == "royale") {
+      this.socket.on('message', (data) => {
+        console.log(data)
+        if (data.includes("q-")) {
+          this.currentIndex = JSON.parse(data).d.b.d.split("q-")[1].split("-")[0] - 1
+          this.shuffle = JSON.parse(data).d.b.d.split("q-")[1].split("-")[1]
+          this.startquestion()
+        }
+      })
+    } else {
     this.socket.on('message', (data) => {message(data, this)})
     this.on("GameStart", function() {
         this.gamestarted = 1
         this.CurrentIndex = 0
         this.startquestion()
     })
+  }
   }
   /**
   * Sends the player information to the websocket
@@ -97,7 +112,9 @@ class Blooket extends EventEmitter {
   * Starts the question, changes the question index for the next question
   */
   async startquestion() {
+    if (this.mode != "royale") {
     this.socket.removeAllListeners()
+  }
     if (this.CurrentIndex == this.TotalIndex & this.options.repeat == true) {
       this.CurrentIndex = 0
     } else if (this.options.repat == false) {
@@ -111,29 +128,33 @@ class Blooket extends EventEmitter {
   */
  async answer(a) {
    console.log("Answering Question: " + this.CurrentIndex)
-   await answerHandler(a-1, this).then((correct) => {
-     this.correct = correct
-     this.CurrentIndex += 1
-   })
-   if (this.correct == true) {
-     this.emit("Correct")
-     if (this.mode == "gold") {
-       await goldchance().then((prizes) => {
-         this.prizes = prizes
-         this.emit("GetGold")
-       })
-     } else if (this.mode == "cafe") {
-       this.cash += this.options.cafebonus
-       this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","ca":${this.cash}}}}}`)
-       game.emit("NextQuestion")
-     } else if (this.mode == "fact") {
-       this.blooks += 1
-       console.log(`You have ${this.blooks} blooks`)
-       setInterval(function() {
-         game.cash += game.options.blookcash
-         game.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${game.pin}/c/${game.name}","d":{"b":"${game.animal}","ca":${game.cash}}}}}`)
-       }, this.options.blooktime);
-       this.emit("NextQuestion")
+   if (this.mode == "royale") {
+     this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/a/${this.name}","d":{"a":${a},"t":${this.options.answertime}}}}}`)
+   } else {
+     await answerHandler(a-1, this).then((correct) => {
+       this.correct = correct
+       this.CurrentIndex += 1
+     })
+     if (this.correct == true) {
+       this.emit("Correct")
+       if (this.mode == "gold") {
+         await goldchance().then((prizes) => {
+           this.prizes = prizes
+           this.emit("GetGold")
+         })
+       } else if (this.mode == "cafe") {
+         this.cash += this.options.cafebonus
+         this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","ca":${this.cash}}}}}`)
+         game.emit("NextQuestion")
+       } else if (this.mode == "fact") {
+         this.blooks += 1
+         console.log(`You have ${this.blooks} blooks`)
+         setInterval(function() {
+           game.cash += game.options.blookcash
+           game.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${game.pin}/c/${game.name}","d":{"b":"${game.animal}","ca":${game.cash}}}}}`)
+         }, this.options.blooktime);
+         this.emit("NextQuestion")
+       }
      }
    }
  }

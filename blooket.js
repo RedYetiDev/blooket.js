@@ -35,7 +35,6 @@ class Blooket extends EventEmitter {
     this.name = null
     this.animal = null
     this.mode = null
-    this.currency = null
     this.CurrentIndex = 0
     this.TotalIndex = null
     this.correct = null
@@ -65,13 +64,10 @@ class Blooket extends EventEmitter {
       this.gameid = data[0]
       this.mode = data[1].toLowerCase()
       if (this.mode == 'factory') {
-        this.mode == 'fact'
+        this.mode = 'fact'
       }
-      console.log(this.mode)
-      if (this.mode == 'gold') {
-        this.currency = 'g'
-      } else if (this.mode == 'cafe' || this.mode == 'fact') {
-        this.currency = 'ca'
+      if (this.mode == 'racing') {
+        this.mode = 'race'
       }
     })
     await this.connect()
@@ -82,7 +78,6 @@ class Blooket extends EventEmitter {
     })
     if (this.mode == "royale") {
       this.socket.on('message', (data) => {
-        console.log(data)
         if (data.includes("q-")) {
           this.currentIndex = JSON.parse(data).d.b.d.split("q-")[1].split("-")[0] - 1
           this.shuffle = JSON.parse(data).d.b.d.split("q-")[1].split("-")[1]
@@ -114,7 +109,7 @@ class Blooket extends EventEmitter {
   async startquestion() {
     if (this.mode != "royale") {
     this.socket.removeAllListeners()
-  }
+    }
     if (this.CurrentIndex == this.TotalIndex & this.options.repeat == true) {
       this.CurrentIndex = 0
     } else if (this.options.repat == false) {
@@ -154,6 +149,10 @@ class Blooket extends EventEmitter {
            game.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${game.pin}/c/${game.name}","d":{"b":"${game.animal}","ca":${game.cash}}}}}`)
          }, this.options.blooktime);
          this.emit("NextQuestion")
+       } else if (this.mode == "race") {
+         this.cash += 1 // Cash is the race position in this index.
+         this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","pr":${this.cash}}}}}`)
+         this.emit("NextQuestion")
        }
      }
    }
@@ -163,7 +162,6 @@ class Blooket extends EventEmitter {
  */
  async getgold(p) {
    await goldHandler(p, this).then((e) => {
-     console.log(e)
      if (e[1] == "l") {
       this.socket.send(`{"t":"d","d":{"r":2,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","g":${this.cash}}}}}`)
       this.emit("NextQuestion")
@@ -176,7 +174,6 @@ class Blooket extends EventEmitter {
       this.emit("Swap",e[0])
     } else if (e[2] == "t") {
        this.steal = e
-       console.log(this.steal[0])
        this.emit("Steal",e[0])
      }
    })
@@ -187,12 +184,9 @@ class Blooket extends EventEmitter {
  swap(player) {
    var targetanimal = this.steal[0][player].b
    this.socket.on("message", function(data) {
-     console.log(this)
      data = JSON.parse(data)
-     console.log(data.d)
      if (data.d.b.d.at) {
        console.log("You swapped!")
-       console.log(data.d.b.d.g)
        game.cash = data.d.b.d.g || 0
        game.emit("NextQuestion")
      }
@@ -206,13 +200,11 @@ class Blooket extends EventEmitter {
  rob(player) {
    var target = this.steal[0][player]
    var percent = this.steal[1]
-   console.log(target)
    if (!target.g) {
      target.g = 0
    }
    var amount = (percent / 100) * target.g
    var remaining = target.g - amount
-   console.log(amount)
    this.cash += amount
    this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"at":"${player}:${target.b}:${amount}","b":"${this.animal}","g":${remaining}}}}}`)
    this.emit("NextQuestion")

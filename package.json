@@ -3,10 +3,12 @@
   "version": "0.2.2",
   "description": "This is a terminal client for the quiz service known as Blooket",
   "main": "blooket.js",
-  "scripts": {},
+  "scripts": {
+    "test": exit 0
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/RedYetiDev/blooket.js.git"
+    "url": "https://github.com/RedYetiDev/blooket.js.git"
   },
   "keywords": [
     "Blooket",

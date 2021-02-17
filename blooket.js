@@ -21,6 +21,9 @@ class Blooket extends EventEmitter {
     this.options.repeat = options.repeat || true
     // Cafe Mode Only Option
     this.options.cafebonus = options.cafebonus || 50
+    // Factory Mode Only Options
+    this.options.blooktime = options.blooktime || 1000
+    this.options.blookcash = options.blookcash || 100
     // All Game Modes
     this.questions = null
     this.mode = null
@@ -39,7 +42,8 @@ class Blooket extends EventEmitter {
     // For Gold Game Mode
     this.prizes = null
     this.steal = null
-    // Options configure
+    // For fatory mode only
+    this.blooks = 0
   }
   /**
   * @param {number} pin - The game pin
@@ -56,9 +60,13 @@ class Blooket extends EventEmitter {
     await getdata(this).then((data) => {
       this.gameid = data[0]
       this.mode = data[1].toLowerCase()
+      if (this.mode == 'factory') {
+        this.mode == 'fact'
+      }
+      console.log(this.mode)
       if (this.mode == 'gold') {
         this.currency = 'g'
-      } else if (this.mode == 'cafe' || this.mode == 'factory') {
+      } else if (this.mode == 'cafe' || this.mode == 'fact') {
         this.currency = 'ca'
       }
     })
@@ -118,6 +126,14 @@ class Blooket extends EventEmitter {
        this.cash += this.options.cafebonus
        this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","ca":${this.cash}}}}}`)
        game.emit("NextQuestion")
+     } else if (this.mode == "fact") {
+       this.blooks += 1
+       console.log(`You have ${this.blooks} blooks`)
+       setInterval(function() {
+         game.cash += game.options.blookcash
+         game.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${game.pin}/c/${game.name}","d":{"b":"${game.animal}","ca":${game.cash}}}}}`)
+       }, this.options.blooktime);
+       this.emit("NextQuestion")
      }
    }
  }

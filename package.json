@@ -1,5 +1,5 @@
 {
-  "name": "blooket.js",
+  "name": "@redyetidev/blooket.js",
   "version": "0.2.1",
   "description": "This is a terminal client for the quiz service known as Blooket",
   "main": "blooket.js",

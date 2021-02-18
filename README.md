@@ -1,1 +1,1 @@
-# blooket.js-docs
+# Documentation

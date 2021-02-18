@@ -4,9 +4,12 @@
 * @returns {promise} Returns a promise containing the websocket use for the game.
 */
 const WebSocket = require('ws');
+const Sockets = require("./socketDetector")
 function socketcheck(pin) {
-  return new Promise((resolve, reject) => {
-  var socket = new WebSocket("wss://s-usc1c-nss-250.firebaseio.com/.ws?v=5&ns=blooket-2020")
+  return new Promise(async(resolve, reject) => {
+  var sockets = await Sockets().catch((e) => {})
+  console.log(sockets)
+  var socket = new WebSocket(sockets[0])
   socket.on('open', function() {
     socket.send('{"t":"d","d":{"r":2,"a":"q","b":{"p":"/' + pin + '","h":""}}}')
   });
@@ -21,7 +24,7 @@ function socketcheck(pin) {
     } catch (e) {}
   });
   var first = setTimeout(function() {
-    socket = new WebSocket("wss://s-usc1c-nss-242.firebaseio.com/.ws?v=5&ns=blooket-2021")
+    socket = new WebSocket(sockets[1])
     socket.on("open", function() {
       socket.send('{"t":"d","d":{"r":2,"a":"q","b":{"p":"/' + pin + '","h":""}}}')
     });
@@ -36,7 +39,7 @@ function socketcheck(pin) {
       } catch (e) {}
     });
     var seconds = setTimeout(function () {
-        var socket = new WebSocket("wss://s-usc1c-nss-201.firebaseio.com/.ws?v=5&ns=blooket-2023")
+        var socket = new WebSocket(sockets[2])
         socket.on("open", function() {
           socket.send('{"t":"d","d":{"r":2,"a":"q","b":{"p":"/' + pin + '","h":""}}}')
         });
@@ -51,7 +54,7 @@ function socketcheck(pin) {
           } catch (e) {}
         });
         var third = setTimeout(function () {
-          var socket = new WebSocket("wss://s-usc1c-nss-206.firebaseio.com/.ws?v=5&ns=blooket-2022")
+          var socket = new WebSocket(sockets[3])
           socket.on("open", function() {
             socket.send('{"t":"d","d":{"r":2,"a":"q","b":{"p":"/' + pin + '","h":""}}}')
           });

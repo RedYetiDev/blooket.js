@@ -1,5 +1,5 @@
 # Blooket.JS
-## Version 0.5.0 Beta
+## Version 0.6.0 Alpha
 This version is **STILL** in beta. Classic Game Mode is not yet supported.
 #### Table Of Contents
   - [Features](#features)

@@ -1,12 +1,10 @@
 const ws = require('ws');
 const EventEmitter = require("events");
 const socketcheck = require('./modules/socket');
-const getdata = require('./modules/getdata')
+const {getdata, getquestions} = require('./modules/getdata')
 const message = require('./modules/messageHandler')
-const getquestions = require('./modules/questions')
 const answerHandler = require("./modules/answerHandler")
-const goldchance = require("./modules/goldchance")
-const goldHandler = require("./modules/goldHandler")
+const {goldHandler, goldchance} = require("./modules/goldHandler")
 const delay = ms => new Promise(res => setTimeout(res, ms));
 class Blooket extends EventEmitter {
     /**
@@ -79,7 +77,6 @@ class Blooket extends EventEmitter {
     })
     if (this.mode == "royale" || this.mode == "classic") {
       this.socket.on('message', (data) => {
-        console.log(data)
         if (data.includes("q-")) {
           this.currentIndex = JSON.parse(data).d.b.d.split("q-")[1].split("-")[0] - 1
           this.shuffle = JSON.parse(data).d.b.d.split("q-")[1].split("-")[1]

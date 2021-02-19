@@ -2,6 +2,7 @@
 * @param {object} self - The client
 * @returns {Promise} - Returns a promise containing the set, and the game data
 */
+const got = require('got')
 async function getdata(self) {
   return new Promise((resolve,reject) => {
   self.socket.on('open', function() {
@@ -18,4 +19,16 @@ async function getdata(self) {
   });
   })
 }
-module.exports = getdata
+/**
+* @params {number} id - The game ID, used for retreived question data
+* @returns {promise} - returns a promise containing the game question data
+* @requires got
+*/
+function getquestions(id) {
+  return new Promise(async(resolve, reject) => {
+    res = await got(`https://www.blooket.com/api/games?gameId=${id}`)
+    questiondata = JSON.parse(res.body)
+    return resolve(questiondata)
+  });
+}
+module.exports = {getdata, getquestions}

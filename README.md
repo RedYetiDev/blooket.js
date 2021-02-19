@@ -1,3 +1,4 @@
+![Blooket.JS](https://blooket.js.org/images/favicon_animated.svg)
 # Blooket.JS
 ## Version 1.0.0
 #### Table Of Contents

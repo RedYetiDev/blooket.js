@@ -36,7 +36,7 @@
 ### <a id="features"></a>Features
   - Joining games
   - Playing games
-  - Auto answer (can be set to do it correctly)
+  - Auto answer (can be set to do it correctly, see #2)
   - Can use "Prizes", like the normal client
 
 ### <a id="sbugs"></a>Semi-Bugs

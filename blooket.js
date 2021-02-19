@@ -24,7 +24,7 @@ class Blooket extends EventEmitter {
     // Factory Mode Only Options
     this.options.blooktime = options.blooktime || 1000
     this.options.blookcash = options.blookcash || 100
-    // Battle Royale Only Options
+    // Battle Royale and Classic mode Only Options
     this.options.answertime = options.answertime || 1
     // All Game Modes
     this.questions = null
@@ -63,6 +63,7 @@ class Blooket extends EventEmitter {
     await getdata(this).then((data) => {
       this.gameid = data[0]
       this.mode = data[1].toLowerCase()
+      console.log(this.mode)
       if (this.mode == 'factory') {
         this.mode = 'fact'
       }
@@ -76,8 +77,9 @@ class Blooket extends EventEmitter {
       this.questions = questions.questions
       this.TotalIndex = questions.questions.length - 1
     })
-    if (this.mode == "royale") {
+    if (this.mode == "royale" || this.mode == "classic") {
       this.socket.on('message', (data) => {
+        console.log(data)
         if (data.includes("q-")) {
           this.currentIndex = JSON.parse(data).d.b.d.split("q-")[1].split("-")[0] - 1
           this.shuffle = JSON.parse(data).d.b.d.split("q-")[1].split("-")[1]
@@ -107,8 +109,8 @@ class Blooket extends EventEmitter {
   * Starts the question, changes the question index for the next question
   */
   async startquestion() {
-    if (this.mode != "royale") {
-    this.socket.removeAllListeners()
+    if (this.mode != "royale" & this.mode != "classic") {
+      this.socket.removeAllListeners()
     }
     if (this.CurrentIndex == this.TotalIndex & this.options.repeat == true) {
       this.CurrentIndex = 0
@@ -125,7 +127,9 @@ class Blooket extends EventEmitter {
    console.log("Answering Question: " + this.CurrentIndex)
    if (this.mode == "royale") {
      this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/a/${this.name}","d":{"a":${a},"t":${this.options.answertime}}}}}`)
-   } else {
+   } else if (this.mode == "classic") {
+        this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"a":${a},"t":${this.options.answertime}}}}}`)
+    }  else {
      await answerHandler(a-1, this).then((correct) => {
        this.correct = correct
        this.CurrentIndex += 1

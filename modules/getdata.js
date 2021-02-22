@@ -26,7 +26,7 @@ async function getdata(self) {
 */
 function getquestions(id) {
   return new Promise(async(resolve, reject) => {
-    res = await got(`https://www.blooket.com/api/games?gameId=${id}`)
+    res = await got(`https://api.blooket.com/api/games?gameId=${id}`)
     questiondata = JSON.parse(res.body)
     return resolve(questiondata)
   });

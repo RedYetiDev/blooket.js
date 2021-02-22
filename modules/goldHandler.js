@@ -113,4 +113,4 @@ function getPlayers(self) {
   self.socket.send(`{"t":"d","d":{"r":1,"a":"q","b":{"p":"/${self.pin}/c","h":""}}}`)
 })
 }
-module.exports = {goldHandler, goldchance}
+module.exports = {goldHandler, goldchance, getPlayers}

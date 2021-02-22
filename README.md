@@ -1,6 +1,6 @@
 ![Blooket.JS](https://blooket.js.org/images/favicon_animated.svg)
 # Blooket.JS
-## Version 1.0.0
+## Version 1.1.0
 #### Table Of Contents
   - [Features](#features)
   - [Semi Bugs](#sbugs)
@@ -15,9 +15,11 @@
         - [Join](#joinfunction)
         - [Start Question](#startquestionfunction)
         - [answer](#answer)
+          - [autocorrect](#autocorrect)
         - [Get Gold](#getgoldfunction)
         - [Swap](#swapfunction)
         - [Rob](#rob)
+        - [BotSpam](#bot)
       - [Events](#events)
         - [Joined](#joined)
         - [GameStart](#gamestart)
@@ -37,6 +39,8 @@
 ### <a id="features"></a>Features
   - Joining games
   - Playing games
+  - Bot Spam
+  - Random Blook
   - Auto answer (can be set to do it correctly, see [this issue](https://github.com/RedYetiDev/blooket.js/issues/2))
   - Can use "Prizes", like the normal client
 
@@ -96,6 +100,9 @@
   - #### <a id="answer"></a>answer(a)
     The answer function is used to answer the question. the `a` variable can be a number 1 through 4. The answer function is called by the user after `QuestionStart` is emitted. (See `QuestionStart` in `Events` and `answer` in `Examples`).
 
+    - #### <a id="autocorrect">autocorrect()
+    The `autocorrect` function is a function to be used in place of the `a` variable within the `game.answer` function. So, instead of running `game.answer(1,2,3 or 4)`, run `game.answer(autocorrect())`
+
   - #### <a id="getgoldfunction"></a>getgold(p)
     (Only in Gold Quest) The getgold function is used to collect your prize. The `p` variable can by a number 1 through 3. The prizes you can get are randomly selected (see `modules/goldchance.js`). This function is run when the user handles the `GetGold` event. (See `GetGold` in `Events`).
 
@@ -104,6 +111,14 @@
 
   - #### <a id="rob"></a>rob(player)
       (Only in Gold Quest) The rob function is used to steal from a player. The `player` variable should be a name of a player in the game, or a `Object.keys()` function like `Object.keys({variable})[0]` replacing `0` with a number 0-through the amount of players subtracted by 1 (ex: 20 players means number 0 through 19). It is used while handling the `Steal` event (see `Steal` in `Events` and `Swap and Steal` in `Examples`).
+  - #### <a id="bots"></a>BotSpam(pin, name, animal, n)
+    Using the BotSpam function will unleash a army of even robots to destroy the world:boom: :scream: :boom:! No it will not... yet... The BotSpam function takes all the normal join arguments (`pin`, `name`, `animal`), and one extra, `n`. This variable should be positive number. It is the number of bots to spam the game with. (The bots will not answer questions but might in the future). The `BotSpam` function should be the **ONLY** function in the script when used. The correct way to call this function to use the following snippet
+    ```js
+    const Blooket = require("blooket.js")
+    const game = new Blooket()
+    game.BotSpam(PIN,Name,Animal, Number)
+    ```
+    The Bot's names will be as such "Name0", "Name1", "Name2"...
 
   ## <a id="events"></a>Events
   The Blooket.JS class emits events at different times. Below is a brief explanation of the events
@@ -166,7 +181,6 @@
   })
   ```
 ## <a id="up"></a>Upcoming Features
-  - Classic Game Mode
   - `Powerups/Glitch` support in Factory Mode
   - And more
 

@@ -73,6 +73,7 @@
   | blooktime  | (Factory Mode Only) How long between the books generating cash             | Integer (milliseconds)            | Any Number            | 1000          |
   | answertime | (Battle Royale Mode Only) How long it took the client to answer            | Integer (milliseconds 1 to 20000) | Any number 1 to 20000 | 1             |
   | cafebonus  | (Cafe Mode Only) The amount of cash to give the client after every answer. | Integer                           | Any number            | 100           |
+  | towerbonus  | (Tower Defense Mode Only) The amount of cash to give the client after every answer. | Integer                           | Any number            | 1           |
 
   The options should be formatted as a JSON object like such
   ```js

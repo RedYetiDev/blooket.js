@@ -15,6 +15,8 @@ class Blooket extends EventEmitter {
     this.options.repeat = options.repeat || true
     // Cafe Mode Only Option
     this.options.cafebonus = options.cafebonus || 50
+    // Tower Defense Only Option
+    this.options.towerbonus = options.towerbonus || 1
     // Factory Mode Only Options
     this.options.blooktime = options.blooktime || 1000
     this.options.blookcash = options.blookcash || 100
@@ -42,7 +44,7 @@ class Blooket extends EventEmitter {
     // Battle Royale only
     this.shuffle = null
   }
-  async join(pin, name, animal, spam=false) {
+  async join(pin, name, animal) {
     await socketcheck(pin).then((socket) => { this.socket = new ws(socket.url)})
     this.pin = pin
     this.animal = animal
@@ -55,18 +57,20 @@ class Blooket extends EventEmitter {
       console.log(this.mode)
       if (this.mode == 'factory') {
         this.mode = 'fact'
-      }
-      if (this.mode == 'racing') {
+      } else if (this.mode == 'racing') {
         this.mode = 'race'
+      } else if (this.mode == 'defense') {
+        this.mode = 'def'
       }
+      console.log(this.mode)
     })
     if (this.animal == "random") {
+      console.log("Random Animal")
       this.animal = await this.randomblook()
+      console.log("Random Animal Chosen: ")
+      console.log(this.animal)
     }
     await this.connect()
-    if (spam == true) {
-      return null
-    }
     this.emit("joined", this)
     await getquestions(this.gameid).then((questions) => {
       this.questions = questions.questions
@@ -91,17 +95,19 @@ class Blooket extends EventEmitter {
   }
   randomblook() {
     return new Promise(async(resolve, reject) => {
+      console.log("Stage")
       var blooklist = []
       var playerlist = await getPlayers(this)
+      console.log(playerlist)
       for (var player in playerlist) {
         blooklist.push(playerlist[player].b)
       }
       console.log(blooklist)
-      var blooks = ["Chick","Chicken","Cow","Goat","Horse","Pig","Sheep","Duck","Dog","Cat","Rabbit","Goldfish","Hamster","Turtle","Kitten","Puppy","Bear","Moose","Fox","Raccoon","Squirrel","Owl","Hedgehog","Tiger","Orangutan","Cockatoo","Parrot","Anaconda","Jaguar","Macaw","Toucan","Panther","Capuchin","Snowy_Owl","Polar_Bear","Artic_Fox","Baby_Penguin","Penguin","Arctic_Hare","Seal","Walrus","Witch","Wizard","Elf","Fairy","Slime_Monster","Jester","Dragon","Queen","Unicorn","King","Two_of_Spades","Eat_Me","Drink_Me","Alice","Queen_of_Hearts","Dormouse","White_Rabbit","Cheshire_Cat","Caterpillar","Mad_Hatter","King_of_Hearts","Toast","Cereal","Yogurt","Breakfast_Combo","Orange_Juice","Milk","Waffle","Pancakes","French_Toast","Pizza","Earth","Meteor","Stars","Alien","Planet","UFO","Spaceship","Astronaut","Snow_Globe","Holiday_Gift","Hot_Chocolate","Holiday_Wreath","Gingerbread_Man","Gingerbread_House","Snowman","Santa_Claus","Pumpkin","Swamp_Monster","Frankenstein","Vampire","Zombie","Mummy","Werewolf","Ghost","Red_Astronaut","Blue_Astronaut","Green_Astronaut","Pink_Astronaut","Orange_Astronaut","Yellow_Astronaut","Black_Astronaut","Purple_Astronaut","Brown_Astronaut","Cyan_Astronaut","Lime_Astronaut","Spooky_Pumpkin","Spooky_Mummy","Spooky_Ghost","Frost_Wreath","Tropical_Globe"];
+      var blooks = ["Chick","Chicken","Cow","Goat","Horse","Pig","Sheep","Duck","Dog","Cat","Rabbit","Goldfish","Hamster","Turtle","Kitten","Puppy","Bear","Moose","Fox","Raccoon","Squirrel","Owl","Hedgehog","Tiger","Orangutan","Cockatoo","Parrot","Anaconda","Jaguar","Macaw","Toucan","Panther","Capuchin","Snowy Owl","Polar Bear","Artic Fox","Baby Penguin","Penguin","Arctic Hare","Seal","Walrus","Witch","Wizard","Elf","Fairy","Slime Monster","Jester","Dragon","Queen","Unicorn","King","Two of Spades","Eat Me","Drink Me","Alice","Queen of Hearts","Dormouse","White Rabbit","Cheshire Cat","Caterpillar","Mad Hatter","King of Hearts","Toast","Cereal","Yogurt","Breakfast Combo","Orange Juice","Milk","Waffle","Pancakes","French Toast","Pizza","Earth","Meteor","Stars","Alien","Planet","UFO","Spaceship","Astronaut","Snow Globe","Holiday Gift","Hot Chocolate","Holiday Wreath","Gingerbread Man","Gingerbread House","Snowman","Santa Claus","Pumpkin","Swamp Monster","Frankenstein","Vampire","Zombie","Mummy","Werewolf","Ghost","Red Astronaut","Blue Astronaut","Green Astronaut","Pink Astronaut","Orange Astronaut","Yellow Astronaut","Black Astronaut","Purple Astronaut","Brown Astronaut","Cyan Astronaut","Lime Astronaut","Spooky Pumpkin","Spooky Mummy","Spooky Ghost","Frost Wreath","Tropical Globe"];
       blooklist.forEach((blook) => {
           delete blooks[blooks.indexOf(blook)]
       });
-      var blooks = blooks.filter(function (blook) {
+      var blooks = blooks.filter(function(blook) {
         return blook != null
       });
       return resolve(blooks[Math.floor(Math.random() * blooks.length)])
@@ -142,7 +148,7 @@ class Blooket extends EventEmitter {
      this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/a/${this.name}","d":{"a":${a},"t":${this.options.answertime}}}}}`)
    } else if (this.mode == "classic") {
         this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"a":${a},"t":${this.options.answertime}}}}}`)
-    }  else {
+    } else {
      await answerHandler(a-1, this).then((correct) => {
        this.correct = correct
        this.CurrentIndex += 1
@@ -170,8 +176,13 @@ class Blooket extends EventEmitter {
          this.cash += 1 // Cash is the race position in this index.
          this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","pr":${this.cash}}}}}`)
          this.emit("NextQuestion")
-       }
-     } else {
+       } else if (this.mode == "def") {
+       this.cash += this.options.towerbonus
+       console.log(this.cash)
+       this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","d":${this.cash}}}}}`)
+       this.emit("NextQuestion")
+     }
+   } else {
        this.emit("Incorrect")
      }
    }
@@ -223,13 +234,15 @@ class Blooket extends EventEmitter {
    this.emit("NextQuestion")
  }
  async BotSpam(pin, name, animal, n) {
+   await socketcheck(pin).then((socket) => { this.socket = new ws(socket.url)})
+   this.socket.on("open", function() {// Wait for socket to start without using events
    var t = 0
    while (n > t) {
-    this.join(pin, name + String(t), animal, true)
-    await delay(1500)
-    console.log("Joined")
-    t += 1
+     this.send(`{"t":"d","d":{"r":2,"a":"p","b":{"p":"/${pin}/c/${name + " " + t}","d":{"b":"${animal}"}}}}`)
+     t += 1
+     console.log("Sent Player")
    }
- }
+  })
+}
 }
 module.exports = Blooket;

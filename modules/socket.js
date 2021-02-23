@@ -80,7 +80,7 @@ function socketcheck(pin) {
             } catch (e) {}
           });
           var fourth = setTimeout(function () {
-            var socket = new WebSocket("wss://s-usc1c-nss-270.firebaseio.com/.ws?v=5&ns=blooket-2024")
+            var socket = new WebSocket(sockets[4])
             socket.on("open", function() {
               socket.send('{"t":"d","d":{"r":2,"a":"q","b":{"p":"/' + pin + '","h":""}}}')
             });

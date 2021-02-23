@@ -98,6 +98,11 @@ function getPlayers(self) {
   return new Promise((resolve, reject) => {
   self.socket.on("message", function(data) {
     console.log("Received")
+    console.log(data)
+    if (data == '{"t":"d","d":{"r":1,"b":{"s":"ok","d":{}}}}') {
+      console.log("No Players in game.")
+      return resolve([])
+    }
     data = JSON.parse(data)
     console.log(data)
     try {

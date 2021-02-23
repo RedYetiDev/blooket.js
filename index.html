@@ -64,7 +64,7 @@
                         <div class="big-title text-center">
                           <img id="biglogo" src="images/favicon_animated.svg">
                             <h1>by RedYetiDev</h1>
-                            <p class="lead">Blooket.JS Version 1.0.0</p>
+                            <p class="lead">Blooket.JS Version 1.2</p>
                         </div>
                     </div>
                 </div>
@@ -84,6 +84,9 @@
                                     <li><a href="#line4_2">Connect</a></li>
                                     <li><a href="#line4_3">startquestion</a></li>
                                     <li><a href="#line4_4">answer</a></li>
+                                    <ul class="nav">
+                                      <li><a href="#line4_4_2">autocorrect</a></li>
+                                    </ul>
                                     <li><a href="#line4_5">getgold</a></li>
                                     <li><a href="#line4_6">swap</a></li>
                                     <li><a href="#line4_7">rob</a></li>
@@ -95,6 +98,7 @@
                                   <li><a href="#line5_2">GameStart</a></li>
                                   <li><a href="#line5_3">QuestionStart</a></li>
                                   <li><a href="#line5_4">Correct</a></li>
+                                  <li><a href="#line5_4_1">Incorrect</a></li>
                                   <li><a href="#line5_5">GetGold</a></li>
                                   <li><a href="#line5_6">Swap</a></li>
                                   <li><a href="#line5_7">Steal</a></li>
@@ -102,19 +106,6 @@
                                   <li><a href="#line5_9">SocketConnect</a></li>
                               </ul>
                             </li>
-                            <!-- <li><a href="#line6">Revolution Slider</a></li>
-                            <li><a href="#line7">How to Use Option Panel</a>
-                                <ul class="nav">
-                                    <li><a href="#line7_1">General Options</a></li>
-                                    <li><a href="#line7_2">Style Options</a></li>
-                                    <li><a href="#line7_3">Header Options</a></li>
-                                    <li><a href="#line7_4">Font Options</a></li>
-                                    <li><a href="#line7_5">Slider Options</a></li>
-                                    <li><a href="#line7_6">Page Options</a></li>
-                                    <li><a href="#line7_7">Import & Export</a></li>
-                                </ul>
-                            </li> -->
-                            <!-- <li><a href="#line8">Support Desk</a></li> -->
                             <li><a href="#line9">Files & Sources</a></li>
                             <li><a href="#line10">Version History (Changelog)</a></li>
                             <li><a href="#line11">Copyright and license</a></li>
@@ -301,6 +292,9 @@
                             <li><h4 id="line4_4">answer(a)</h4>
                             <p>The answer function is used to answer the question. the <code>a</code> variable can be a number 1 through 4. The answer function is called by the user after <code>QuestionStart</code> is emitted. (See <code>QuestionStart</code> in <code>Events</code> and <code>answer</code> in <code>Examples</code>).</p>
                             </li>
+                            <li><h4 id="line4_4_1">autocorrect()</h4>
+                            <p>The autoanswer function is to be used instead of the <code>a</code> variable in <code>answer(a)</code>. Use like so: <code>game.answer(game.autocorrect())</code> </p>
+                            </li>
                             <li><h4 id="line4_5"></a>getgold(p)</h4>
                             <p>(Only in Gold Quest) The getgold function is used to collect your prize. The <code>p</code> variable can by a number 1 through 3. The prizes you can get are randomly selected (see <code>modules/goldchance.js</code>). This function is run when the user handles the <code>GetGold</code> event. (See <code>GetGold</code> in <code>Events</code>).</p>
                             </li>
@@ -333,6 +327,9 @@
                         </li>
                         <li><h4 id="line5_4">Correct</h4>
                         <p>The Correct event is emitted when a question is answered correctly.</p>
+                        </li>
+                        <li><h4 id="line5_4_1">Incorrect</h4>
+                        <p>The Incorrect event is emitted when a question is answered incorrectly.</p>
                         </li>
                         <li><h4 id="line5_5">GetGold</h4>
                         <p>The GetGold event is emitted when a player gets a question correct, and they are playing in gold quest mode. When handling this event, it is required to run the <code>game.getgold()</code> function.</p>
@@ -567,7 +564,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                              This 
+                              This
                               The Documentation theme was created by <a href="https://github.com/surjithctly">surjithctly</a>. For more information on the creators of this theme, visit his <a href="https://github.com/surjithctly/documentation-html-template">GitHub Repo</a>
                             </div>
                         </div>

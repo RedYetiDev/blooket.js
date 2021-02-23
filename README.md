@@ -50,7 +50,8 @@
   - If a player swaps with the client, the client does not lose any gold
 ### <a id="bugs"></a>Bugs
   - Client swapping does not work (Only for Gold Quest)
-  - Client can't join mid-game (Not Applicable for Battle Royale)
+  - Client can't join mid-game (Not Applicable for Battle Royale or Classic Game Mode)
+  - In `modules/socket.js`, there is a typo on `line 83`, causing some WebSocket issues. (Patched in Version 1.2)
 
 ### <a id="docs"></a>Documentation
 

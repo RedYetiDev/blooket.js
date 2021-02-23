@@ -102,7 +102,7 @@
     The answer function is used to answer the question. the `a` variable can be a number 1 through 4. The answer function is called by the user after `QuestionStart` is emitted. (See `QuestionStart` in `Events` and `answer` in `Examples`).
 
     - #### <a id="autocorrect">autocorrect()
-    The `autocorrect` function is a function to be used in place of the `a` variable within the `game.answer` function. So, instead of running `game.answer(1,2,3 or 4)`, run `game.answer(autocorrect())`
+    The `autocorrect` function is a function to be used in place of the `a` variable within the `game.answer` function. So, instead of running `game.answer(1,2,3 or 4)`, run `game.answer(game.autocorrect())`
 
   - #### <a id="getgoldfunction"></a>getgold(p)
     (Only in Gold Quest) The getgold function is used to collect your prize. The `p` variable can by a number 1 through 3. The prizes you can get are randomly selected (see `modules/goldchance.js`). This function is run when the user handles the `GetGold` event. (See `GetGold` in `Events`).

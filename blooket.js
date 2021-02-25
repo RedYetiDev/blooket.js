@@ -65,7 +65,6 @@ class Blooket extends EventEmitter {
       console.log(this.mode)
     })
     if (this.animal == "random") {
-      console.log("Random Animal")
       this.animal = await this.randomblook()
       console.log("Random Animal Chosen: ")
       console.log(this.animal)
@@ -78,8 +77,11 @@ class Blooket extends EventEmitter {
     })
     if (this.mode == "royale" || this.mode == "classic") {
       this.socket.on('message', (data) => {
+        console.log(data)
         if (data.includes("q-")) {
-          this.currentIndex = JSON.parse(data).d.b.d.split("q-")[1].split("-")[0] - 1
+          console.log(JSON.parse(data).d.b.d.split("q-")[1].split("-")[0] - 1)
+          console.log(JSON.parse(data).d)
+          this.CurrentIndex = JSON.parse(data).d.b.d.split("q-")[1].split("-")[0] - 1
           this.shuffle = JSON.parse(data).d.b.d.split("q-")[1].split("-")[1]
           this.startquestion()
         }
@@ -95,14 +97,11 @@ class Blooket extends EventEmitter {
   }
   randomblook() {
     return new Promise(async(resolve, reject) => {
-      console.log("Stage")
       var blooklist = []
       var playerlist = await getPlayers(this)
-      console.log(playerlist)
       for (var player in playerlist) {
         blooklist.push(playerlist[player].b)
       }
-      console.log(blooklist)
       var blooks = ["Chick","Chicken","Cow","Goat","Horse","Pig","Sheep","Duck","Dog","Cat","Rabbit","Goldfish","Hamster","Turtle","Kitten","Puppy","Bear","Moose","Fox","Raccoon","Squirrel","Owl","Hedgehog","Tiger","Orangutan","Cockatoo","Parrot","Anaconda","Jaguar","Macaw","Toucan","Panther","Capuchin","Snowy Owl","Polar Bear","Artic Fox","Baby Penguin","Penguin","Arctic Hare","Seal","Walrus","Witch","Wizard","Elf","Fairy","Slime Monster","Jester","Dragon","Queen","Unicorn","King","Two of Spades","Eat Me","Drink Me","Alice","Queen of Hearts","Dormouse","White Rabbit","Cheshire Cat","Caterpillar","Mad Hatter","King of Hearts","Toast","Cereal","Yogurt","Breakfast Combo","Orange Juice","Milk","Waffle","Pancakes","French Toast","Pizza","Earth","Meteor","Stars","Alien","Planet","UFO","Spaceship","Astronaut","Snow Globe","Holiday Gift","Hot Chocolate","Holiday Wreath","Gingerbread Man","Gingerbread House","Snowman","Santa Claus","Pumpkin","Swamp Monster","Frankenstein","Vampire","Zombie","Mummy","Werewolf","Ghost","Red Astronaut","Blue Astronaut","Green Astronaut","Pink Astronaut","Orange Astronaut","Yellow Astronaut","Black Astronaut","Purple Astronaut","Brown Astronaut","Cyan Astronaut","Lime Astronaut","Spooky Pumpkin","Spooky Mummy","Spooky Ghost","Frost Wreath","Tropical Globe"];
       blooklist.forEach((blook) => {
           delete blooks[blooks.indexOf(blook)]
@@ -122,6 +121,7 @@ class Blooket extends EventEmitter {
   }
 
   async startquestion() {
+    console.log(this.CurrentIndex)
     if (this.mode != "royale" & this.mode != "classic") {
       this.socket.removeAllListeners()
     }

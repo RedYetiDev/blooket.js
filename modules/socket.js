@@ -19,7 +19,6 @@ const WebSocket = require('ws');
 function socketcheck(pin) {
   return new Promise(async(resolve, reject) => {
   var sockets = await Sockets().catch((e) => {})
-  console.log(sockets)
   var socket = new WebSocket(sockets[0])
   socket.on('open', function() {
     socket.send('{"t":"d","d":{"r":2,"a":"q","b":{"p":"/' + pin + '","h":""}}}')

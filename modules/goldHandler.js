@@ -1,6 +1,3 @@
-/**
-* @returns {array} - Returns an array containing 3 random prizes.
-*/
 function goldchance() {
   return new Promise((resolve,reject) => {
     const probability = [ // Help form https://stackoverflow.com/questions/66141403/javascript-chance-with-decimals/66141958 on probability
@@ -46,12 +43,6 @@ function goldchance() {
     return resolve(result)
   })
 }
-
-/**
-* @param {number} p - The prize number
-* @param {object} self - the client
-* @returns {array} - Returns an array containing the players (optional), the cash or percent of cash for an action, and the action to perform
-*/
 function goldHandler(p, self) {
    return new Promise(async(resolve,reject) => {
      var prize = self.prizes[p - 1]
@@ -60,12 +51,10 @@ function goldHandler(p, self) {
        return resolve([self.cash,"d"])
      } else if (prize == "t10") {
        await getPlayers(self).then((players) => {
-         console.log(players)
          return resolve([players,10,"t"])
        })
      } else if (prize == "t25") {
        await getPlayers(self).then((players) => {
-         console.log(players)
          return resolve([players,25,"t"])
        })
      } else if (prize == "l25") {
@@ -76,7 +65,6 @@ function goldHandler(p, self) {
        return resolve([cash, "l"])
      } else if (prize == "swap") {
        await getPlayers(self).then((players) => {
-         console.log(players)
          return resolve([players,"s"])
        })
      } else if (prize == "double") {
@@ -97,24 +85,19 @@ function goldHandler(p, self) {
 function getPlayers(self) {
   return new Promise((resolve, reject) => {
   self.socket.on("message", function(data) {
-    console.log("Received")
-    console.log(data)
     if (data == '{"t":"d","d":{"r":1,"b":{"s":"ok","d":{}}}}') {
       console.log("No Players in game.")
       return resolve([])
     }
     data = JSON.parse(data)
-    console.log(data)
     try {
       if (data.d.b.p == `${self.pin}/c`) {
         this.removeAllListeners()
         var players = data.d.b.d
         delete players[self.name]
-        console.log(players)
         return resolve(players)
-    }} catch(e) {console.log(e)}
+    }} catch(e) {}
   })
-  console.log("Sending...")
   self.socket.send(`{"t":"d","d":{"r":1,"a":"q","b":{"p":"/${self.pin}/c","h":""}}}`)
 })
 }

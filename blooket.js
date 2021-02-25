@@ -235,7 +235,30 @@ class Blooket extends EventEmitter {
  }
  async BotSpam(pin, name, animal, n) {
    await socketcheck(pin).then((socket) => { this.socket = new ws(socket.url)})
-   this.socket.on("open", function() {// Wait for socket to start without using events
+   this.socket.on("open", async function() {
+   if (animal == "random") {
+     this.pin = pin
+     this.name = name
+     this.animal = animal
+     this.socket = this
+     animal = await new Promise(async(resolve, reject) => {
+           var blooklist = []
+           var playerlist = await getPlayers(this)
+           console.log(playerlist)
+           for (var player in playerlist) {
+             blooklist.push(playerlist[player].b)
+           }
+           console.log(blooklist)
+           var blooks = ["Chick","Chicken","Cow","Goat","Horse","Pig","Sheep","Duck","Dog","Cat","Rabbit","Goldfish","Hamster","Turtle","Kitten","Puppy","Bear","Moose","Fox","Raccoon","Squirrel","Owl","Hedgehog","Tiger","Orangutan","Cockatoo","Parrot","Anaconda","Jaguar","Macaw","Toucan","Panther","Capuchin","Snowy Owl","Polar Bear","Artic Fox","Baby Penguin","Penguin","Arctic Hare","Seal","Walrus","Witch","Wizard","Elf","Fairy","Slime Monster","Jester","Dragon","Queen","Unicorn","King","Two of Spades","Eat Me","Drink Me","Alice","Queen of Hearts","Dormouse","White Rabbit","Cheshire Cat","Caterpillar","Mad Hatter","King of Hearts","Toast","Cereal","Yogurt","Breakfast Combo","Orange Juice","Milk","Waffle","Pancakes","French Toast","Pizza","Earth","Meteor","Stars","Alien","Planet","UFO","Spaceship","Astronaut","Snow Globe","Holiday Gift","Hot Chocolate","Holiday Wreath","Gingerbread Man","Gingerbread House","Snowman","Santa Claus","Pumpkin","Swamp Monster","Frankenstein","Vampire","Zombie","Mummy","Werewolf","Ghost","Red Astronaut","Blue Astronaut","Green Astronaut","Pink Astronaut","Orange Astronaut","Yellow Astronaut","Black Astronaut","Purple Astronaut","Brown Astronaut","Cyan Astronaut","Lime Astronaut","Spooky Pumpkin","Spooky Mummy","Spooky Ghost","Frost Wreath","Tropical Globe"];
+           blooklist.forEach((blook) => {
+               delete blooks[blooks.indexOf(blook)]
+           });
+           var blooks = blooks.filter(function(blook) {
+             return blook != null
+           });
+           return resolve(blooks[Math.floor(Math.random() * blooks.length)])
+         })
+   }
    var t = 0
    while (n > t) {
      this.send(`{"t":"d","d":{"r":2,"a":"p","b":{"p":"/${pin}/c/${name + " " + t}","d":{"b":"${animal}"}}}}`)

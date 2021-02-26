@@ -1,6 +1,4 @@
 index.js
 node_modules
 .DS_Store
-out
 .npmrc
-botspam.js

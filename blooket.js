@@ -165,12 +165,26 @@ class Blooket extends EventEmitter {
          this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","ca":${this.cash}}}}}`)
          game.emit("NextQuestion")
        } else if (this.mode == "fact") {
+         if (Math.floor(Math.random() * 100) =< 80) {
          this.blooks += 1
          console.log(`You have ${this.blooks} blooks`)
          setInterval(function() {
            game.cash += game.options.blookcash
            game.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${game.pin}/c/${game.name}","d":{"b":"${game.animal}","ca":${game.cash}}}}}`)
          }, this.options.blooktime);
+         } else {
+           if (Math.floor(Math.random() * 5) == 0) {
+             this.glitch("la")
+           } else if (Math.floor(Math.random() * 5) == 1) {
+             this.glitch("f")
+           } else if (Math.floor(Math.random() * 5) == 2) {
+             this.glitch("sm")
+           } else if (Math.floor(Math.random() * 5) == 3) {
+             this.glitch("lo")
+           } else {
+             this.glitch("as")
+           }
+         }
          this.emit("NextQuestion")
        } else if (this.mode == "race") {
          this.cash += 1 // Cash is the race position in this index.
@@ -206,7 +220,9 @@ class Blooket extends EventEmitter {
      }
    })
  }
-
+ glitch(glitch) {
+  this.socket.send('{"t":"d","d":{"r":1,"a":"p","b":{"p":"/' + this.pin + '/act","d":{"b":"' + this.animal + '","g":"' + glitch + '","n":"' + this.name + '"}}}}')
+ }
  swap(player) {
    var targetanimal = this.steal[0][player].b
    this.socket.on("message", function(data) {

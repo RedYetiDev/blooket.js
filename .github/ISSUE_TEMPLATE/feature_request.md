@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea for Blooket.JS
-title: ''
+title: Feature request
 labels: enhancement
 assignees: ''
 

@@ -165,7 +165,7 @@ class Blooket extends EventEmitter {
          this.socket.send(`{"t":"d","d":{"r":1,"a":"p","b":{"p":"/${this.pin}/c/${this.name}","d":{"b":"${this.animal}","ca":${this.cash}}}}}`)
          game.emit("NextQuestion")
        } else if (this.mode == "fact") {
-         if (Math.floor(Math.random() * 100) =< 80) {
+         if (Math.floor(Math.random() * 100) <= 80) {
          this.blooks += 1
          console.log(`You have ${this.blooks} blooks`)
          setInterval(function() {
